@@ -19,8 +19,8 @@ export class Cat { // DB Relacional con MySql Tabla: Cat = Gato
     @DeleteDateColumn()
     deletedAt: Date
 
-    @ManyToOne(() => Breed, (breed) => breed.id, {
+    @ManyToOne(() => Breed, (breed) => breed.id, { // relacion con la tabla 'breed'
         eager: true // para que se traiga la raza en el findOne
-    }) // relacion con la tabla breed
+    }) 
     breed: Breed;
 }
