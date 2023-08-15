@@ -15,8 +15,8 @@ export class User {
     @Column({ nullable: false }) // nullable es que no puede ser vacio
     password: string
 
-    // @Column({ default: 'user' })
-    // rol: []
+    @Column({ default: 'user' })
+    role: string
 
     @DeleteDateColumn()
     deletedAt: Date
