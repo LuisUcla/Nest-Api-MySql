@@ -2,8 +2,11 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { BreedsService } from './breeds.service';
 import { CreateBreedDto } from './dto/create-breed.dto';
 import { UpdateBreedDto } from './dto/update-breed.dto';
+import { Auth } from '../auth/decorators/auth.decorator';
+import { Role } from '../common/enums/rol.enum';
 
 @Controller('breeds')
+@Auth(Role.ADMIN) // middleware donde el usuario admin es el que hacen las operaciones de los 'breeds'
 export class BreedsController {
   constructor(private readonly breedsService: BreedsService) {}
 
