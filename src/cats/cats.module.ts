@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { Cat } from './entities/cat.entity';
 import { BreedsModule } from '../breeds/breeds.module';
 
+// BreedsModule para usar los metodos
+// de Breed en catService
 @Module({
   imports: [TypeOrmModule.forFeature([Cat]), BreedsModule],
   controllers: [CatsController],
