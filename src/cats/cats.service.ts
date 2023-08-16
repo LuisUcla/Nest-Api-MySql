@@ -17,7 +17,7 @@ export class CatsService {
   ) {}
 
 
-  async create(createCatDto: CreateCatDto) {
+  async create(createCatDto: CreateCatDto, user: any) { // user es el que viene desde el token
     const breed = await this.breedRepository.findOneBy({ name: createCatDto.breed })
 
     if (!breed) {
@@ -26,7 +26,8 @@ export class CatsService {
     
     return await this.catsRepository.save({
       ...createCatDto,
-      breed
+      breed,
+      userEmail: user.email
     });
     // return
   }
