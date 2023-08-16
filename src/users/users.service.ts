@@ -17,11 +17,18 @@ export class UsersService {
   }
 
   findAll() {
-    return `This action returns all users`;
+    return this.userRepository.find()
   }
 
   findOneByEmail(email: string) {
     return this.userRepository.findOneBy({ email })
+  }
+
+  findOneByEmailWithPassword(email: string) { // para usar solo en el login
+    return this.userRepository.findOne({ 
+      where: { email },
+      select: ['id', 'name', 'email', 'password', 'role'] // datos que se devuelven en la peticion
+    })
   }
 
   findOne(id: number) {
