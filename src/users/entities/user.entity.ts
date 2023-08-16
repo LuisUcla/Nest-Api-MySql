@@ -1,3 +1,4 @@
+import { Role } from "../../common/enums/rol.enum";
 import { Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
@@ -12,11 +13,14 @@ export class User {
     @Column({ unique: true, nullable: false }) // nullable es que no puede ser vacio
     email: string
     
-    @Column({ nullable: false }) // nullable es que no puede ser vacio
+    // nullable es que no puede ser vacio
+    // select: false es para que no traiga la password en las peticiones
+    @Column({ nullable: false, select: false }) 
     password: string
 
-    @Column({ default: 'user' })
-    role: string
+    // valida que se no se ingrese cualquier cosa en el campo role
+    @Column({ type: 'enum', default: Role.USER, enum: Role }) 
+    role: Role
 
     @DeleteDateColumn()
     deletedAt: Date
