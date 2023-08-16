@@ -29,7 +29,7 @@ export class AuthService {
 
     async login({email, password}: LoginDto) {
         // ver si poner try catch
-        const user = await this.userService.findOneByEmail(email);
+        const user = await this.userService.findOneByEmailWithPassword(email);
         if (!user) {
             throw new UnauthorizedException('Email is wrong...');
         }
@@ -39,7 +39,7 @@ export class AuthService {
             throw new UnauthorizedException('Password is wrong...');
         }
 
-        const payload = { email: user.email };
+        const payload = { email: user.email, role: user.role };
 
         const token = await this.jwtService.signAsync(payload); // firmar el token con los valores
 
