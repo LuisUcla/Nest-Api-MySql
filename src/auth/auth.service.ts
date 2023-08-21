@@ -44,7 +44,8 @@ export class AuthService {
         const token = await this.jwtService.signAsync(payload); // firmar el token con los valores
 
         return {
-            user,
+            email,
+            role: user.role,
             token
         }
     }
