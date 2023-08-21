@@ -11,6 +11,6 @@ export const psql_dbConnect: TypeOrmModuleOptions = {
     autoLoadEntities: true,
     //entities: [],
     synchronize: true,
-    ssl: process.env.SSL === 'true', // para prod
-    extra: { ssl: process.env.SSL === 'true' ? { rejectUnauthorized: false } : null } // para prod
+    ssl: process.env.POSTGRES_SSL === 'true', // para prod
+    extra: { ssl: process.env.POSTGRES_SSL === 'true' ? { rejectUnauthorized: false } : null } // para prod
 }
