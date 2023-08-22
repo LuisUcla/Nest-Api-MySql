@@ -1,8 +1,11 @@
-import { Controller, Post, Body, Res, Get, UseGuards, Request } from '@nestjs/common';
+import { Controller, Post, Body, Res, Get, UseGuards, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { registerDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
-import { AuthGuard } from './guard/auth.guard';
+import { Role } from '../common/enums/rol.enum'
+import { Auth } from './decorators/auth.decorator';
+import { ActiveUser } from '../common/decorators/active-user.decorator';
+import { UserActiveInterface } from '../common/interfaces/user-active.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -21,10 +24,10 @@ export class AuthController {
         return this.authService.register(registerDto)
     }
 
-    // @Get('profile')
-    // @UseGuards(AuthGuard) // middleware
-    // profile(@Request() req) {
-    //     console.log(req.user)
-    //     return req.user
-    // }
+    @Get('profile')
+    @Auth(Role.USER) // decorador general que tiene varios decoradores
+    profile(@ActiveUser() user: UserActiveInterface) {
+        console.log(user)
+        return user
+    }
 }
