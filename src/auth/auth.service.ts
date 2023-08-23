@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { registerDto } from './dto/register.dto';
 import * as bcryptjs from 'bcryptjs';
@@ -17,13 +17,16 @@ export class AuthService {
         const user = await this.userService.findOneByEmail(email);
 
         if (user) {
-            throw new BadRequestException('User already exists...')
+            //throw new BadRequestException('User already exists...')
+            throw new ConflictException('User already exists...')
         }
+
+        const hashPassword = await bcryptjs.hash(password, 10);
 
         return await this.userService.create({
             email, 
             name,
-            password: await bcryptjs.hash(password, 10)
+            password: hashPassword
         })
     }
 
@@ -31,7 +34,7 @@ export class AuthService {
         // ver si poner try catch
         const user = await this.userService.findOneByEmailWithPassword(email);
         if (!user) {
-            throw new UnauthorizedException('Email is wrong...');
+            throw new NotFoundException('Email is wrong...');
         }
 
         const isPasswordValid = await bcryptjs.compare(password, user.password);
