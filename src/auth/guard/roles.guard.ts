@@ -10,7 +10,7 @@ export class RolesGuard implements CanActivate {
   canActivate(
     context: ExecutionContext,
   ): boolean {
-    const role = this.reflector.getAllAndOverride<Role>(ROLES_KEY, [ // reflector para obtener datos de la metadata
+    const role = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [ // reflector para obtener datos de la metadata
       context.getHandler(),
       context.getClass()
     ]);
@@ -26,6 +26,6 @@ export class RolesGuard implements CanActivate {
       return true;
     }
 
-    return role === user.role; // hacer cuando sea en array, ejemplo: ['admin', 'user']
+    return role.some((role) => user.role?.includes(role)); // true or false
   }
 }
