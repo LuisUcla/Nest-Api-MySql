@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
 import { Cat } from './entities/cat.entity';
@@ -43,7 +43,7 @@ export class CatsService {
     const cat = await this.catsRepository.findOneBy({ id })
 
     if (!cat) {
-      throw new BadRequestException('Cat not found...')
+      throw new NotFoundException('Cat not found...')
     }
 
     this.validateOwnership(cat, user); // validacion
@@ -77,9 +77,21 @@ export class CatsService {
     const breedEntity = await this.breedRepository.findOneBy({ name: breed });
 
     if (!breedEntity) {
-      throw new BadRequestException('Breed not found...')
+      throw new NotFoundException('Breed not found...')
     }
 
     return breedEntity;
+  }
+
+  async findAllDeleted(isActive: boolean, user: UserActiveInterface) {
+    if (user.role === Role.ADMIN) {
+      return this.catsRepository.find({
+        where: { isActive }
+      });
+    }
+
+    return await this.catsRepository.find({
+      where: { userEmail: user.email, isActive }
+    });
   }
 }

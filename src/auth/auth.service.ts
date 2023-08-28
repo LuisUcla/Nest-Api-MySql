@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { registerDto } from './dto/register.dto';
 import * as bcryptjs from 'bcryptjs';
@@ -17,7 +17,6 @@ export class AuthService {
         const user = await this.userService.findOneByEmail(email);
 
         if (user) {
-            //throw new BadRequestException('User already exists...')
             throw new ConflictException('User already exists...')
         }
 
