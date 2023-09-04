@@ -7,6 +7,9 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Breed } from '../breeds/entities/breed.entity';
 import { Role } from '../common/enums/rol.enum';
 import { UserActiveInterface } from '../common/interfaces/user-active.interface';
+import { HttpService } from '@nestjs/axios/dist';
+import { Observable } from 'rxjs';
+import { AxiosResponse } from 'axios';
 
 @Injectable()
 export class CatsService {
@@ -15,7 +18,8 @@ export class CatsService {
     private readonly catsRepository: Repository<Cat>, // para usar los metodos de la DB MySql
 
     @InjectRepository(Breed)
-    private readonly breedRepository: Repository<Breed>  // para usar los metodos de la tabla breed
+    private readonly breedRepository: Repository<Breed>,  // para usar los metodos de la tabla breed
+    private readonly httpService: HttpService,
   ) {}
 
 
@@ -93,5 +97,9 @@ export class CatsService {
     return await this.catsRepository.find({
       where: { userEmail: user.email, isActive }
     });
+  }
+
+  findDog(): Observable<AxiosResponse<any>> { 
+    return this.httpService.get<any>('https://dog.ceo/api/breed/hound/images/random')
   }
 }

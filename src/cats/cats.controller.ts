@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Res } from '@nestjs/common';
 import { CatsService } from './cats.service';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { UpdateCatDto } from './dto/update-cat.dto';
@@ -56,6 +56,13 @@ export class CatsController {
   @Post()
   create(@Body() createCatDto: CreateCatDto, @ActiveUser() user: UserActiveInterface) {
     return this.catsService.create(createCatDto, user);
+  }
+
+  @Get('dog') // para consultar otras apis
+  getImageDog(@Res() res: any) {
+    return this.catsService.findDog().subscribe((data: any) => {
+      res.json(data.data) 
+    })
   }
 
   @ApiQuery({ name: 'isActive', enum: ['true', 'false'] })
