@@ -7,7 +7,7 @@ export const config = new DocumentBuilder() // para documentar en swagger
     .setVersion('1.0')
     .setContact('Dev_L', 'http://localhost:3000', 'caluigi7@gmail.com')
     .setLicense('Mysql', 'https://www.apache.org/licenses/LICENSE-2.0.html')
-    .addBearerAuth()
+    .addBearerAuth() // { type: 'http', scheme: 'bearer', bearerFormat: 'JWT', in: 'header' },'access-token'
     .addServer('http://localhost:3000')
     .addTag('Cats', 'Everything about your Cats', { description: 'More', url: 'http://localhost:3000/docs' })
     .addTag('Auth', 'Operations about Auth', { description: 'More', url: 'http://localhost:3000/docs' })

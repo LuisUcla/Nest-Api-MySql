@@ -25,7 +25,12 @@ async function bootstrap() {
   );
 
   const document = SwaggerModule.createDocument(app, config); // --> docs swagger
-  SwaggerModule.setup('docs', app, document); // --> docs swagger
+  SwaggerModule.setup('docs', app, document, { 
+    swaggerOptions: {
+      operationsSorter: 'alpha', // para ordenar las apis en swagger docs
+      tagsSorter: 'alpha',
+    }
+  }); // --> docs swagger
 
   await app.listen(3000);
 }
